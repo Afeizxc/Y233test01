@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bdqn.mapper.SongMapper">
+    <resultMap id="resultMap" type="cn.bdqn.domain.Song">
+        <result column="singer_id" property="singerId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="resultMap">
+        select s.id,s.singerId,s.name,s.introduction,s.createTime,s.updateTime,s.pic,s.lyric,s.url
+        from song s
+        <where>
+            <if test="name != null and name !=''">
+                s.name like #{name}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into
+        song(singerId,name,introduction,createTime,updateTime,pic,lyric,url)
+        values(#{singerId},#{name},#{introduction},#{createTime},#{updateTime},#{pic},#{lyric},#{url})
+    </insert>
+
+    <update id="update">
+        update
+            song
+        set
+            singerId = #{singerId},
+            name = #{name},
+            introduction = #{introduction}
+            createTime = #{createTime}
+            updateTime = #{updateTime}
+            pic = #{pic}
+            lyric = #{lyric}
+            url = #{url}
+        where
+            id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from
+            song
+        where
+            id = #{id}
+    </delete>
+
+    <select id="selectById" resultType="cn.bdqn.domain.Song">
+        select s.id,s.singerId,s.name,s.introduction,s.createTime,s.updateTime,s.pic,s.lyric,s.url
+        from song
+        where id = #{id}
+    </select>
+
+
+</mapper>
